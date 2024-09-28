@@ -1,5 +1,7 @@
 namespace SpriteKind {
     export const trees = SpriteKind.create()
+    export const B = SpriteKind.create()
+    export const bot = SpriteKind.create()
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     if (which_side == 0) {
@@ -329,8 +331,75 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
             `)
     }
 })
-let which_side = 0
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    刀光 = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.B)
+    if (which_side == 0) {
+        刀光.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . 1 1 . . . 
+            . . . . . . . . . . 1 1 1 . . . 
+            . . . . . . . . . 1 1 1 1 . . . 
+            . . . . . . . . 1 1 1 1 1 . . . 
+            . . . . . . . 1 1 1 1 1 . . . . 
+            . . . . . . . 1 1 1 1 1 . . . . 
+            . . . . . . 1 1 1 1 1 1 . . . . 
+            . . . . . . 1 1 1 1 1 1 . . . . 
+            . . . . . . 1 1 1 1 1 . . . . . 
+            . . . . . . 1 1 1 1 1 1 . . . . 
+            . . . . . . . 1 1 1 1 1 1 . . . 
+            . . . . . . . . 1 1 1 1 1 1 . . 
+            . . . . . . . . . . 1 1 1 1 . . 
+            . . . . . . . . . . . . 1 1 . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+        刀光.vx = -50
+    } else {
+        if (which_side == 1) {
+            刀光.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . 1 1 1 . . . . . . . . . . . 
+                . . 1 1 1 1 1 . . . . . . . . . 
+                . . . 1 1 1 1 1 1 . . . . . . . 
+                . . . 1 1 1 1 1 1 . . . . . . . 
+                . . . . 1 1 1 1 1 1 . . . . . . 
+                . . . . 1 1 1 1 1 1 . . . . . . 
+                . . . . . 1 1 1 1 1 . . . . . . 
+                . . . . . 1 1 1 1 1 . . . . . . 
+                . . . . . 1 1 1 1 1 . . . . . . 
+                . . . . 1 1 1 1 1 . . . . . . . 
+                . . . . 1 1 1 1 . . . . . . . . 
+                . . . 1 1 1 1 1 . . . . . . . . 
+                . . 1 1 1 1 1 . . . . . . . . . 
+                . . 1 1 1 1 . . . . . . . . . . 
+                . . . . . . . . . . . . . . . . 
+                `)
+            刀光.vx = 50
+        }
+    }
+    刀光.setPosition(main_player.x, main_player.y)
+    pause(2500)
+})
+let 刀光: Sprite = null
 let main_player: Sprite = null
+let which_side = 0
+which_side = 1
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -547,35 +616,45 @@ main_player = sprites.create(img`
     ........................
     ........................
     `, SpriteKind.Player)
+let bot = sprites.create(img`
+    ..............ffffff....
+    .............f2feeeeff..
+    ............f222feeeeff.
+    .......cc...feeeeffeeef.
+    .......cdc.fe2222eeffff.
+    .......cddcf2effff222ef.
+    ........cddcffeeefffffff
+    .........cddce44fbe44eff
+    ..........cdceddf14d4eef
+    ..........cccdeddd4eeef.
+    ...........edd4e44eeff..
+    ............ee442222f...
+    .............f2e2222f...
+    .............f554444f...
+    ..............ffffff....
+    ................fff.....
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    ........................
+    `, SpriteKind.bot)
 tree_1.setPosition(37, 68)
 tree_2.setPosition(106, 58)
-main_player.setPosition(scene.screenWidth() / 2, 74)
+main_player.setPosition(15, 74)
+bot.setPosition(145, 74)
 controller.moveSprite(main_player)
-let players = sprites.create(img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, SpriteKind.Player)
+bot.setVelocity(-50, 0)
 forever(function () {
     if (74 < main_player.y) {
         main_player.y = 74
     }
 })
 forever(function () {
-    if (main_player.y > 60) {
+    if (main_player.y > 58) {
         main_player.y = 74
     }
 })
@@ -637,5 +716,13 @@ forever(function () {
             ........................
             ........................
             `)
+    }
+})
+forever(function () {
+    if (main_player.x < 0) {
+        main_player.x = 0
+    }
+    if (main_player.x > 160) {
+        main_player.x = 160
     }
 })
